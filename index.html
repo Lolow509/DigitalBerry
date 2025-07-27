@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<!--    <link rel="stylesheet" href="loading.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+  </head>
+
+
+  
+<body>
+
+  <ons-navigator id="mainNavigator" page="login.html"></ons-navigator>
+
+  <!-- Pages de connexion, inscription, etc. -->
+  <template id="login.html">
+    <ons-page id="login">
+      <ons-toolbar>
+        <div class="center">Connexion</div>
+      </ons-toolbar>
+
+    <div id="jbjcb" style="display: flex; justify-content: center; align-items: center;">
+      <div style="text-align: center; margin-top: 30px;">
+      <ons-card style="text-align: center; margin-top: 30px;">
+  
+        <p style="margin-top: 40px;">  <ons-input id="emailCo" placeholder="Nom d'utilisateur" value="lolow.an@mail.com" float></ons-input></p>  
+        
+        <p style="margin-top: 40px;">  <ons-input id="passwordCo" value="@123456" placeholder="Mot de passe" type="password" float></ons-input>
+        </p>
+        <div onclick="togglePassword()" style="margin-top: -15px; font-size: small;"><ons-icon icon="fa-eye" id="eyeIcon"></ons-icon>
+        <span id="eyeLabel"> Afficher</span></div>
+
+        
+          <ons-button onclick="login()" style="margin-top: 20px;">Se connecter</ons-button><br><br>
+         </ons-button>
+            
+        </ons-card>
+  
+  
+        <ons-button modifier="quiet" onclick="goToRegister()">S'inscrire</ons-button>
+        <ons-button modifier="quiet" onclick="goToForgotPassword()">Mot de passe oublié ?
+      </div>
+    </div>
+      
+    </ons-page>
+  </template>
+
+  <template id="register.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Retour</ons-back-button>
+        </div>
+        <div class="center">Inscription</div>
+      </ons-toolbar>
+      <!-- Champs d'inscription -->
+    </ons-page>
+  </template>
+
+  <template id="forgot-password.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Retour</ons-back-button>
+        </div>
+        <div class="center">Mot de passe oublié</div>
+      </ons-toolbar>
+      <!-- Champs pour réinitialisation -->
+    </ons-page>
+  </template>
+
+  <template id="mainApp.html">
+    <ons-page id="mainApp">
+      <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+          <ons-page>
+            <ons-list>
+              <ons-list-item>
+                <div class="left">
+                  <img id="logo_user" class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+                </div>
+                <div class="center">
+                  <span class="list-item__title" id="nom_user">Nom Utilisateur</span><span class="list-item__subtitle" id="role_user">Role utilisateur</span>
+                </div>
+              </ons-list-item>
+              
+              <ons-list-item tappable onclick="loadPage('home.html')">Accueil</ons-list-item>
+              <ons-list-item tappable onclick="loadPage('article.html')">Article</ons-list-item>
+              <ons-list-item tappable onclick=" ">Reçu</ons-list-item>
+               <ons-list-item tappable onclick="loadPage('newCmd.html')">Prise de commande</ons-list-item>
+              <ons-list-item tappable onclick="loadPage('settings.html')">Paramètres</ons-list-item>
+
+            </ons-list>
+          </ons-page>
+        </ons-splitter-side>
+
+        <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+      </ons-splitter>
+    </ons-page>
+  </template>
+
+<!-- new commande tab -->
+<template id="newCmd.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="menu.toggle()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">Commande</div>
+    </ons-toolbar>
+
+    <ons-tabbar swipeable position="bottom">
+      <ons-tab page="tab_cmd.html" label="Commande" icon="md-shopping-basket"  active>
+      </ons-tab>
+      <ons-tab page="tab_msg.html" label="Message" badge="7" icon="md-email" id="message_badge" > <!--document.getElementById('message_badge').setAttribute('badge', '0')-->
+      </ons-tab>
+    </ons-tabbar>
+  </ons-page>
+</template>
+
+  <template id="tab_cmd.html">
+    <ons-page id="Tab_cmd">
+      <p style="text-align: center;">
+        This is the 1 page.
+      </p>
+
+
+      <div id="newCommande" class="allDivs" >
+          <h1 onclick="name_table()" id="name_table" data-nom="" >Selectionner une table</h1>
+
+
+          <!-- Sélection de table -->
+          <div id="categories" style="display: grid; gap: 25px; justify-content: center;">
+             <div style="text-align: center; margin-top: 10px;">
+          <ons-search-input onchange="onchange_searchInput(this)" style="height: 35px !important;" type="text" id="searchInput" placeholder="Rechercher un plat..."></ons-search-input>
+        </div>
+
+
+            <ons-select style="padding: 10px; width: 80%;" onchange="selectCategory(this.value)" id="catSelect">
+              <option value="">-- Sélectionner une catégorie --</option>
+            </ons-select>
+          </div>
+
+
+          <!-- Liste des produits -->
+          <div id="produits" style="gap: 0.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); display: grid; margin-bottom: 1rem;">
+
+            <template>
+            <ons-card data-option="[]" onclick="ajouterAuPanier('Tarte', 4.5, this, 'desserts')">
+              <div style="font-weight: 600;">Tarte</div>
+              <div style="color: #4B5563;font-size: 14px; line-height: 20px">4.50 €</div>
+            </ons-card>
+            <ons-card data-option="[]" onclick="ajouterAuPanier('Tarte', 4.5, this, 'desserts')">
+              <div style="font-weight: 600;">Tarte</div>
+              <div style="color: #4B5563;font-size: 14px; line-height: 20px">4.50 €</div>
+            </ons-card>
+            </template>
+
+
+          </div>
+
+
+          <div style="display:none; margin-bottom:80px" id="select_option_div" class="bg-white p-4 rounded shadow-md mb-4"> jnijnhn </div>
+
+          <!-- Panier -->
+          <ons-card class="bg-white p-4 rounded shadow-md">
+            <div onclick="add_instruction()" style="text-align: end; margin-bottom:20px"> ➕ Ajouter un instruction</div>
+            <div style="display: flex; font-weight: 700; justify-content: space-between; align-items: center;">
+            <div style="font-size: 1.125rem; line-height: 1.75rem; margin-bottom: 0.5rem;">🛒 Commande</div>
+              <div> <b> <span id="get_total">0,00</span> € </b> </div>
+            </div>
+            <ul id="panier" class="my-spacing"></ul>
+
+            <div id="div_instruction" onclick="supp_instruction()" style="margin-top:20px; margin-bottom:20px; display: none;"> <b>Instruction :</b> <span id="get_instruction"></span> </div>
+            <div style="margin-top:16px">
+
+              <button onclick="envoyerCommande()" style=" border-width: 1px; border-radius: 4px; width: 100%;border: 1px solid #22C55E; background-color: white; color: #22C55E; padding: 8px 8px; font-size: 16px;">
+                ✅ Envoyer en cuisine
+              </button>
+            </div>
+          </ons-card>
+
+      </div>
+
+      
+    </ons-page>
+  </template>
+
+  <template id="tab_msg.html">
+    <ons-page id="Tab_msg">
+      <p style="text-align: center;" id="get_tab2">
+        <b> Vos messages </b>This is the 2 page.
+      </p>
+
+      <div style="margin-bottom: 20px; text-align: center;">
+      <ons-select id="message_select" onchange="message_select(event)">
+        <option value="non_lus" selected>Messages non lus</option>
+        <option value="lus">Messages lus</option>
+      </ons-select>
+      </div>
+
+      <ons-list modifier="inset">
+        
+        <ons-list-item onclick="message_lu(0)" expandable style="margin-bottom: 10px;">
+          <div class="center">
+            <span class="list-item__title">Table</span><span class="list-item__subtitle">Date / Heure</span>
+          </div>
+          <div class="expandable-content">Message du client </div>
+        </ons-list-item>
+        
+      </ons-list>
+
+      
+    </ons-page>
+  </template>
+
+
+
+  <!-- fin new commande table -->
+
+
+
+  
+
+  <!-- Contenu des pages -->
+  <template id="home.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="menu.toggle()">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">Accueil</div>
+      </ons-toolbar>
+      
+
+      <div class="allDivs" >
+      <ons-list modifier="inset" class="listBox">
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('managers', 'Liste des managers')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/76/76828.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Mes managers</span><span class="list-item__subtitle">Liste des managers de l'établisement</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('equipiers', 'Liste des équipiers')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/3772/3772059.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Mes équipiers</span><span class="list-item__subtitle">Liste des équipiers de l'établisement</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('get_table', 'Gérer mes tables')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/18680/18680576.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Gérer mes tables</span><span class="list-item__subtitle">Associez vos tables aux équipiers ou managers</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable onclick= " getHtml('gallery', 'Gérer mes images') ">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/3342/3342176.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Gérer mes images</span><span class="list-item__subtitle"> Gérer les images de votre établisement </span>
+          </div>
+        </ons-list-item>
+
+      
+      </ons-list>
+
+      <ons-list modifier="inset" class="listBox">
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('qrCode', 'Gérer les QrCode')"> 
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/7071/7071550.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Gérer des QrCode</span><span class="list-item__subtitle">Gérer les QrCode à installer sur vos tables</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable onclick="ons.notification.alert(`Cette fonctionnalité n'est pas disponible pour le moment.`)">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/10389/10389881.png ">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Mes équipements</span><span class="list-item__subtitle">La liste de vos équipements</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable onclick="ons.notification.alert(`Cette fonctionnalité n'est pas disponible pour le moment.`)">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://cdn-icons-png.flaticon.com/512/726/726570.png">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Airelle Boutique</span><span class="list-item__subtitle">Passez commande chez Airelle Boutique et équipez vous</span>
+          </div>
+        </ons-list-item>
+
+
+      </ons-list>
+
+
+</div>
+      
+    </ons-page>
+  </template>
+
+
+  <!-- Contenu des pages -->
+  <template id="article.html">
+    <ons-page id="article">
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="menu.toggle()">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">Article</div>
+      </ons-toolbar>
+  
+
+      <div class="allDivs" id="allArticle">
+
+        <div class="listBox" id="choose-sel_listBox" style="text-align: center;">
+          <ons-select style="width:70%" id="choose-sel" onchange="changeCat(event)">
+            <option value="1">Catégorie 1</option>
+            <option value="2">Catégorie 2</option>
+            <option value="3">Catégorie 3</option>
+          </ons-select>
+        </div>
+
+      <div id="allCatSect">
+        
+      </div>
+
+      <div style="display: none;">
+        <ons-list id="cat_1" class="listBox" modifier="inset">
+          <ons-list-header>Nom du Categorie 1</ons-list-header>
+
+          <ons-list-item onclick="getHtml('addProd_article', 'articleBox')">
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">On the addProd</span>
+            </div>
+          </ons-list-item>
+
+          <ons-list-item onclick="getHtml('modifCat_article', 'articleBox')">
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">modifCat_article</span>
+            </div>
+          </ons-list-item>
+
+          <ons-list-item>
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">On the Internet</span>
+            </div>
+          </ons-list-item>
+    </ons-list>
+
+      <ons-list id="cat_2" class="listBox" modifier="inset">
+          <ons-list-header>Nom du Categorie 2</ons-list-header>
+
+          <ons-list-item onclick="getHtml('addProd_article', 'articleBox')">
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">On the addProd</span>
+            </div>
+          </ons-list-item>
+
+          <ons-list-item onclick="getHtml('modifCat_article', 'articleBox')">
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">modifCat_article</span>
+            </div>
+          </ons-list-item>
+
+          <ons-list-item>
+            <div class="left">
+              <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+            </div>
+            <div class="center">
+              <span class="list-item__title">Cutest kitty</span><span class="list-item__subtitle">On the Internet</span>
+            </div>
+          </ons-list-item>
+
+          
+        </ons-list>
+      </div>
+        
+      </div>
+
+
+      <ons-speed-dial id="articleBox_fab" position="bottom right" direction="up" style="position: fixed !important;">
+        <ons-fab>
+          <ons-icon icon="md-plus"></ons-icon>
+        </ons-fab>
+        <ons-speed-dial-item class="fabDial" onclick="getHtml('addProd_article', 'Ajouter un produit')">
+          Ajouter un produit
+        </ons-speed-dial-item>
+        <ons-speed-dial-item class="fabDial" onclick="getHtml('get_option', 'Gérer les options')">
+          Gérér les options
+        </ons-speed-dial-item>
+        <ons-speed-dial-item class="fabDial" onclick="getHtml('modifCat_article', 'Gérer les catégories')">
+          Gérer les catégories
+        </ons-speed-dial-item>
+        
+      </ons-speed-dial>
+
+      <div style="display: none;" class="allDivs" id="articleBox">
+        
+      </div>
+    </ons-page>
+  </template>
+
+
+
+
+  
+  <template id="recu.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button onclick="menu.toggle()">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">Les reçus</div>
+      </ons-toolbar>
+      <!-- Champs pour réinitialisation -->
+
+
+
+      <ons-speed-dial style="position: fixed !important;" id="recuBox_fab" position="bottom right" direction="up">
+        <ons-fab>
+          <ons-icon icon="md-plus"></ons-icon>
+        </ons-fab>
+        <ons-speed-dial-item class="fabDial" onclick="go_scan_cmd()">
+          Retrouver un reçu
+        </ons-speed-dial-item>
+        <ons-speed-dial-item class="fabDial" onclick="getHtml('newCommande', 'Prise de commande')">
+          Nouvelle commande
+        </ons-speed-dial-item>
+
+      </ons-speed-dial>
+
+
+
+      
+      <div id="recuTemplate" class="allDivs">
+
+        <ons-list>
+          <ons-list-item>
+            <label for="date-picker">Choisir une date :</label>
+            <ons-input onchange="datePickerChange(this)" type="date" id="date-picker" class="right"></ons-input>
+          </ons-list-item>
+        </ons-list>
+
+
+        <ons-list-header id="length_daySelect"">Jour Aujourd'hui</ons-list-header>
+        <div id="recuToday">
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('getRecu', 'Commande n° 9999')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Numero Cmd 9999</span><span class="list-item__subtitle">76,99 €</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('getRecu', 'Commande n° 9999')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Numero Cmd 9998</span><span class="list-item__subtitle">99,99 €</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item modifier="chevron" tappable onclick="getHtml('getRecu', 'Commande n° 9999')">
+          <div class="left">
+            <img class="list-item__thumbnail" src="https://placekitten.com/g/40/40">
+          </div>
+          <div class="center">
+            <span class="list-item__title">Numero Cmd 9997</span><span class="list-item__subtitle">9,99 €</span>
+          </div>
+        </ons-list-item>
+
+          </div>
+    
+        
+      
+      </div>
+
+
+      <div id="getScan_recu" class="allDivs" style="display: none;">
+        <div id="mainBody_scan">
+          <div id="reader" >
+            <div id="load_reader"></div>
+            <div class="overlay">
+              <div class="laser"></div>
+              <div class="corner top-left"></div>
+              <div class="corner top-right"></div>
+              <div class="corner bottom-left"></div>
+              <div class="corner bottom-right"></div>
+
+
+            </div>
+
+            <div id="result"></div>
+          </div>
+
+          
+          <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+          <ons-button modifier="outline light" onclick="
+            document.querySelector('#recuTemplate').style.display = 'block'; document.querySelector('#getScan_recu').style.display = 'none'; document.getElementById('recuBox_fab').removeAttribute('open'); document.getElementById('recuBox_fab').style.visibility = 'visible'
+            " >Annuler</ons-button>
+            <ons-button onclick="retrieveOne_Cmd()" >Manuellement</ons-button>
+            </div>
+
+          
+          </div>
+      </div>
+    </ons-page>
+  </template>
+
+
+
+<template id="settings.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="menu.toggle()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div> 
+      <div class="center">Paramètre</div>
+    </ons-toolbar>
+
+    <ons-tabbar swipeable position="bottom">
+      <ons-tab page="tab_user.html" label="Infos Personnel" active>
+      </ons-tab>
+      <ons-tab page="tab_resto.html" label="Infos Resto" >
+      </ons-tab>
+    </ons-tabbar>
+  </ons-page>
+</template>
+
+  <template id="tab_user.html">
+    <ons-page id="Tab_user">
+      <p style="text-align: center;">
+        Infos utilisateur à venir
+        <br>
+        <ons-button style="background-color: #f21d1d !important;" onclick="logout()">Déconnection</ons-button>
+      </p>
+    </ons-page>
+  </template>
+
+  <template id="tab_resto.html">
+    <ons-page id="Tab_resto">
+      <p style="text-align: center;">
+        Infos resto à venir
+      </p>
+    </ons-page>
+  </template>
+
+
+  
+
+  <template id="getDiv.html">
+    <ons-page id="getDiv">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button id="back_btn" >Retour</ons-back-button>
+        </div>
+        <div class="center" id="divTitle">Mot de passe oublié</div>
+      </ons-toolbar>
+      <!-- Champs pour réinitialisation -->
+      <div id="divPlay" class="allDivs"> </div>
+    </ons-page>
+  </template>
+
+
+
+  <ons-modal direction="up" id="modalWait">
+    <div style="text-align: center">
+      <p>
+        <ons-progress-circular indeterminate></ons-progress-circular>
+        Chargement...
+      </p>
+
+      <p id="progress_waiting"></p>
+
+
+    </div>
+  </ons-modal>
+
+
+
+
+  <!-- Modal pour la gallery -->
+  <ons-modal direction="up" id="modalPic">
+
+    
+    <div style="text-align: center; margin: 40px; height: 400px; overflow-y: auto;     background-color: aquamarine; padding: 30px;" class="image-gallery" id="image-gallery_modalPic">
+      
+    </div>
+    
+  </ons-modal>
+
+
+
+    <ons-dialog id="my-dialog">
+      <div id="getDial_text" style="text-align: center; padding: 10px;">
+        <h3>Selectionner une table</h3>
+        <ons-select id="choose-table-sel"></ons-select>
+      </div>
+      <div style="grid-template-columns: repeat(2, minmax(0, 1fr)); display: grid; gap:20px; margin-top:40px" id="getDial_btn"> </div>
+      
+    </ons-dialog>
+
+
+
+  <script src="service.js"></script>
+  <script src="recu.js"></script>
+  <script src="script.js"></script>
+  <script src="article.js"></script>
+  <script src="template.js"></script>
+  <script src="home.js"></script>
+  
+  <!-- Lib html5-qrcode -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <!--<script src="https://cdn.tailwindcss.com"></script>-->
+  
+</body>
+
+</html>
