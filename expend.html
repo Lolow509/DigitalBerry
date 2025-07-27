@@ -1,0 +1,476 @@
+<!-- Ajouter un nouveau produit -->
+<div id="addProd_article">
+
+  <div style="text-align: center;">
+    <img id="preview_newProd" src="" alt="Aperçu" style="margin-top: 10px; height: 200px; object-fit: cover; width: 100%; object-position: center;">
+    </div>
+  
+  <p>
+    <ons-button onclick="getAll_Assets()" id="newImgProd" modifier="" float>Choisir un media</ons-button>
+  </p>
+
+  <ons-list-item style="width: 70%;">
+    <div class="center">
+      Produit actif
+    </div>
+    <div class="right">
+      <ons-switch checked id="check_ActiveProd"></ons-switch>
+    </div>
+  </ons-list-item>
+
+  <p id="selectCat_listBox"> 
+    <ons-select id="selectCat" modifier="" style="width: 70%;">
+      <option value="0">Catégorie 1</option>
+      <option value="1">Catégorie 2</option>
+      <option value="2">Catégorie 3</option>
+    </ons-select>
+  </p>
+
+  <p>
+    <label for="nomProd">Nom du produit *</label>  <br>
+    <ons-input id="nomProd" modifier="underbar" placeholder="" ></ons-input>
+  </p>
+
+  <p>
+    <label for="prixProd">Prix (TTC) *</label> <br>
+    <ons-input id="prixProd" type="number" modifier="underbar" placeholder="9,99" ></ons-input>
+  </p>
+
+  <p><label for="tauxProd">Taux TVA (%) *</label> <br>
+    <ons-input type="number" id="tauxProd" min="0" max="100" step="1" value="20" modifier="underbar" ></ons-input>
+  </p>
+
+
+  <p>
+    <label for="descriptionProd">Description *</label>  
+    <textarea id="descriptionProd" float style="width: 90%; height: 160px; border: 1px solid #ccc; border-radius: 4px; padding: 10px;"></textarea>
+  </p>
+
+
+
+  <ons-list-item style="width: 70%;">
+    <div class="center">
+      Option
+    </div>
+    <div class="right">
+      <ons-switch onchange="checkOptionProd(event)" id="checkOptionProd"></ons-switch>
+    </div>
+  </ons-list-item>
+
+  
+  <p >
+    <ons-list id="listOptionProd" style="display: none;">
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox value="Apple" input-id="check-1"></ons-checkbox>
+        </label>
+        <label for="check-1" class="center">
+          Apple
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-checkbox value="Banana" input-id="check-2"></ons-checkbox>
+        </label>
+        <label for="check-2" class="center">
+          Banana
+        </label>
+      </ons-list-item>
+    </ons-list>
+  </p>
+
+  <div class="btnBox">
+<!--    <ons-button modifier="large outline" onclick="backHome('allArticle', 'articleBox')"> Annuler </ons-button> -->
+    <ons-button modifier="large" id="addProd_btn" onclick="addProd('new')">Ajouter</ons-button>
+  </div>
+
+
+  
+</div>
+
+
+
+<!-- Ajouter les options -->  
+<div id="get_option">
+
+  <div id="optionBox">
+
+    <ons-list modifier="inset" id="list_allOption">
+      <ons-list-item modifier="longdivider">Item A</ons-list-item>
+      <ons-list-item modifier="longdivider">Item B</ons-list-item>
+    </ons-list>
+    
+  </div>
+
+
+  <div id="new_optionBox" style="display: none">
+    <p style="margin: 40px;">
+      <ons-input style="width: 100%;" id="nomCat" modifier="underbar" placeholder="Nom du catégorie" float></ons-input>
+    </p>
+
+    <div>
+      <ons-button modifier="outline" onclick='  document.querySelector("#optionBox").style.display = "none"; document.querySelector("#new_optionBox").style.display = "block"'>Annuler</ons-button>
+      <ons-button modifier="large" onclick="addCat()">Ajouter</ons-button>
+    </div>
+
+  </div>
+
+  <ons-speed-dial id="catBox_fab" position="bottom right" direction="up" style="position: fixed !important;" onclick='set_Option("ajouter")'>
+    <ons-fab>
+      <ons-icon icon="md-plus"></ons-icon>
+    </ons-fab>
+  </ons-speed-dial>
+
+  
+
+
+  <ons-dialog id="selectDialog" cancelable>
+    <div style="padding: 20px; text-align: center;">
+      <p> <b><span id="actionSelect"></span></b> </p>
+
+      <div id="promptName">
+          <p>Nom de l'option</p>
+        <p>
+          <ons-input type="text" id="inputName_option" modifier="underbar" ></ons-input>
+        </p>
+      </div>
+
+      
+      <ons-select id="promptSelect">
+        <option value="facultatif">Facultatif</option>
+        <option value="obligatoire">Obligatoire</option>
+      </ons-select>
+
+      
+
+      <div id="promptNumber">
+        <p>Choisir un nombre maximum</p>
+      <p>
+        <ons-input type="number" id="inputmax_option" modifier="underbar" ></ons-input>
+      </p>
+    </div>
+
+    <div id="promptText">
+
+      <p>Séparer les éléments par une virgule</p>
+
+  <textarea style="width: 220px; height: 100px;" id="inputItem_option" name="inputItem_option" >
+  </textarea>
+    </div>
+
+      <br><br>
+      <ons-button id="select_btn" onclick="submitSelect()">Valider</ons-button>
+      <ons-button onclick="document.getElementById('selectDialog').hide()">Annuler</ons-button>
+    </div>
+
+
+  </ons-dialog>
+  
+</div>
+
+
+
+
+<!-- Modifier les catégorie -->
+<div id="modifCat_article">
+
+  <ons-speed-dial id="catBox_fab" position="bottom right" direction="up" style="position: fixed !important;" onclick="add_newCat()">
+    <ons-fab>
+      <ons-icon icon="md-plus"></ons-icon>
+    </ons-fab>
+  </ons-speed-dial>
+
+  <div style="margin: 20px; text-align: center;">
+    <ons-button onclick="updateCat()">Valider les changements</ons-button>
+  </div>
+
+  
+  <div id="tagsContainer">
+    
+    <ons-list id="list_category_modif" modifier="inset">
+
+      <template id="modifCat_template">
+        <ons-list-item class="getId">
+          <div onclick="suppCat(index)" class="tag center" data-tag="catégorie 1">
+            Catégorie 1
+          </div>
+          <div class="right">
+            <button onclick="moveUp(this)">▲</button>
+          <button onclick="moveDown(this)">▼</button>
+          </div>
+        </ons-list-item>
+      </template>
+    
+    
+
+    </ons-list>
+    
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+/******* Home *********/
+
+<div id="managers">
+  <div style="margin: 20px; text-align: center;">
+    <ons-button onclick="ons.notification.alert('Service en cours de développement')" <!--onclick="getHtml_home('addManager', 'Ajouter un manager')"-->>
+      Ajouter un manager
+    </ons-button>
+  </div>
+
+  <template id="manager_template">
+    <ons-card class="managerCard">
+      <div style="display: flex; justify-content: space-between !important; gap:30px">
+        <p>
+          <b class="manager_name">Sophie Martin</b>
+        </p>
+        
+        <p class="manager_uid">
+          UID_user
+        </p>
+      </div>
+      
+      <p> <b>Role : </b><span class="manager_role">Manager</span>  </p>
+      <p> <b>Email : </b> <span class="manager_email">sophie.martin@airelle.com </span> </p>
+      <p> <b>Numéro : </b><span class="manager_num">06 12 34 56 78 </span> </p>
+      <p> <b>Date d'ajout : </b><span class="manager_date"> 170000002 </span> </p>
+      <p> <b>Ajout validé par : </b><span class="manager_valid"> Jean Dupont </span> </p>
+    </ons-card>
+  </template>
+
+  <div id="manager_container"> </div>
+</div>
+
+
+
+
+
+<div id="equipiers">
+  <div style="margin: 20px; text-align: center;">
+    <ons-button onclick="ons.notification.alert('Service en cours de développement') " <!--onclick="getHtml_home('addEquipier', 'Ajouter un équipier')"--> >
+      Ajouter un équipier
+    </ons-button>
+  </div>
+
+  <template id="equipier_template">
+    <ons-card class="equipierCard">
+      <div style="display: flex; justify-content: space-between !important; gap:30px">
+        <p>
+          <b class="equipier_name">John Dubois</b>
+        </p>
+
+        <p class="equipier_uid">
+          UID_user
+        </p>
+      </div>
+
+      <p> <b>Role : </b><span class="equipier_role">Equipier</span>  </p>
+      <p> <b>Email : </b> <span class="equipier_email">john.dubois@airelle.com </span> </p>
+      <p> <b>Numéro : </b><span class="equipier_num">06 12 34 56 78 </span> </p>
+      <p> <b>Date d'ajout : </b><span class="equipier_date"> 170000003 </span> </p>
+      <p> <b>Ajout validé par : </b><span class="equipier_valid"> Jean Dupont </span> </p>
+    </ons-card>
+  </template>
+
+  <div id="equipier_container"> </div>
+  
+</div>
+
+
+
+  
+<div id="gallery">
+
+  <div id="image-gallery" class="image-gallery">
+    <!-- Exemple d'images avec data-id -->
+    <template id="assets_template">
+      <div class="image-container" data-id="1015" onclick="toggleSelection(this)">
+        <img class="img_gallery" src="https://picsum.photos/id/1015/200/150">
+        <div class="checkmark">✓</div>
+      </div>
+    </template>
+
+    <div style="margin: 20px auto;"> <ons-button onclick="supprimerImages()">Supprimer les images sélectionnées</ons-button>   </div>
+    <div id="assets_container"> </div>
+
+
+   <ons-speed-dial id="articleBox_fab" id="fabArticle" position="bottom right" direction="up"  style="position: fixed !important;" onclick="document.getElementById('newImage').style.display = 'block'; document.getElementById('image-gallery').style.display = 'none';">
+      <ons-fab>
+        <ons-icon icon="md-plus"></ons-icon>
+      </ons-fab>
+
+    </ons-speed-dial>
+
+    <!--
+    <div class="image-container" data-id="1015" onclick="toggleSelection(this)">
+      <img src="https://picsum.photos/id/1015/200/150">
+      <div class="checkmark">✓</div>
+    </div>
+    <div class="image-container" data-id="1025" onclick="toggleSelection(this)">
+      <img src="https://picsum.photos/id/1025/200/150">
+      <div class="checkmark">✓</div>
+    </div>
+    <div class="image-container" data-id="1045" onclick="toggleSelection(this)">
+      <img src="https://picsum.photos/id/1045/200/150">
+      <div class="checkmark">✓</div>
+    </div>
+      <div class="image-container" data-id="1015" onclick="toggleSelection(this)">
+        <img src="https://picsum.photos/id/1015/200/150">
+        <div class="checkmark">✓</div>
+      </div>
+      <div class="image-container" data-id="1025" onclick="toggleSelection(this)">
+        <img src="https://picsum.photos/id/1025/200/150">
+        <div class="checkmark">✓</div>
+      </div>
+    -->
+  </div>
+
+
+  
+  <div id="newImage" style="display: none;">
+
+    <div>
+      <input type="file" multiple accept="image/*" onchange="newImage(event)">
+      <div id="get_all_newImg"></div>
+
+      <ons-button onclick="addImg()">Ajouter les images à la gallerie</ons-button>
+    </div>
+
+
+
+  </div>
+
+  
+</div>
+
+
+
+<div id="qrCode">
+ <!--   
+  <div style="margin: 20px; text-align: center;">
+    <ons-button onclick="getHtml_home('addQrCode', 'Ajouter un QrCode')">
+      Ajouter un QrCode
+    </ons-button>
+  </div> 
+  -->
+
+  <div style="margin: 20px; text-align: center;" >
+    <ons-button onclick="getAll_table('qrcode')"> <ons-icon size="20px" icon="md-refresh"></ons-icon> Actualiser </ons-button>
+
+  <ons-button onclick="printQrcodeOnly()"> <ons-icon size="20px" icon="md-print"></ons-icon> Imprimer </ons-button>
+      
+    </div>
+  
+  <div id="alt_qrCode" style="text-align: center; display: grid; grid-template-columns: repeat(2, 1fr);"></div>
+
+
+  
+</div>
+
+
+<div id="get_table">
+  <div style="margin: 20px; text-align: center;">
+    <ons-button onclick="add_table()">
+      Ajouter une table
+    </ons-button>
+  </div>
+  
+  <div style="margin: 20px; text-align: center;" id="alt_table" >
+    
+  </div>
+</div>
+
+
+
+
+/******* Recu *********/
+<div id="getRecu">
+  <div style="margin:auto;width:150px">
+    <img src="https://cdn-icons-png.flaticon.com/512/7591/7591479.png" alt="Onsen UI" style="width: 100%">
+
+     </div>
+    <div style="text-align:center; margin-tp:15px" class="title">
+     <h1> <b id="numero_CMD">numero_CMD</b> </h1>
+    </div>
+    <div class="content">
+      <div style="margin: 20px 0px">
+        <ons-button><ons-icon icon="fa-download"></ons-icon></ons-button>
+      </div>
+      <ons-list>
+        <ons-list-header id="date_CMD">07/07/2025</ons-list-header>
+
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">montant</span>
+            <span class="list-item__subtitle" id="montant_CMD">999</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">Nom</span>
+            <span class="list-item__subtitle" id="nom_CMD">Laura Dupont</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">Email</span>
+            <span class="list-item__subtitle" id="email_CMD">laura.dupont@mail.ff</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">statut_Commande</span>
+            <span class="list-item__subtitle" id="statut_CMD">Envoyer</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">Serveur</span>
+            <span class="list-item__subtitle" id="nomServeur_CMD">999</span>
+          </div>
+        </ons-list-item>
+        <ons-list-item>
+          <div class="center">
+            <span class="list-item__title">instruction</span>
+            <span class="list-item__subtitle" id="instruction_CMD">999</span>
+          </div>
+        </ons-list-item>
+
+        <ons-list-header>Panier client </ons-list-header>
+        <div id="get_order"></div>
+        
+  <!--<ons-list-item expandable modifier="nodivider">
+      <div class="left">
+        x1
+      </div>
+      <div class="center">
+        <span class="list-item__title">Nom produit</span><span class="list-item__subtitle">99€</span>
+      </div>
+
+      <div style="margin-left:50px" class="expandable-content">
+        <ons-row>
+          <ons-col width="50px">X1</ons-col>
+          <ons-col>Coca</ons-col>
+        </ons-row>
+        <ons-row>
+          <ons-col width="50px">x2</ons-col>
+          <ons-col>Salade</ons-col>
+        </ons-row>
+      </div>
+    </ons-list-item> -->
+
+
+
+      </ons-list>
+    </div>
+  
+  
+</div>
