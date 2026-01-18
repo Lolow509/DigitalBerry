@@ -24,10 +24,28 @@ h1 {
 input {
   width: 90%;
   padding: 14px;
-  margin-bottom: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
+}
+
+.password-field {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.password-field input {
+  padding-right: 45px;
+}
+
+.toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
 }
 
 input:focus {
@@ -44,7 +62,6 @@ input:focus {
   border: none;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 #link_btn:hover {
