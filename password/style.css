@@ -31,7 +31,7 @@ input {
 
 .password-field {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .password-field input {
@@ -46,6 +46,7 @@ input {
   cursor: pointer;
   font-size: 18px;
   user-select: none;
+  padding-right:15px;
 }
 
 input:focus {
