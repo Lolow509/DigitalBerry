@@ -3,6 +3,14 @@ const message = document.getElementById("message");
 
 const emailRegex = /\S+@\S+\.\S+/;
 
+function togglePassword(inputId, el) {
+  const input = document.getElementById(inputId);
+  const isPassword = input.type === "password";
+
+  input.type = isPassword ? "text" : "password";
+  el.textContent = isPassword ? "🙈" : "👁️";
+}
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -18,7 +26,7 @@ form.addEventListener("submit", function (e) {
   }
 
   if (password.length < 6) {
-    message.textContent = "Le mot de passe doit contenir au moins 6 caractères";
+    message.textContent = "Mot de passe trop court (6 caractères min)";
     return;
   }
 
@@ -27,7 +35,6 @@ form.addEventListener("submit", function (e) {
     return;
   }
 
-  // 👉 Ici tu branches Firebase ou ton API
   message.style.color = "green";
   message.textContent = "Mot de passe réinitialisé avec succès";
 });
