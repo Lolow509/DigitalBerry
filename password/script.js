@@ -1,7 +1,19 @@
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const sheet_id = params.get("sheet_id");
+
 const form = document.getElementById("resetForm");
 const message = document.getElementById("message");
 
 const emailRegex = /\S+@\S+\.\S+/;
+
+
+const url_api = "https://script.google.com/macros/s/AKfycbzQBHptF66yaBXNuJEb5xXElwuh9d5tSM0ekMhy_ehTGvVfC1bmKAlOXHDnwDosi2_9/exec"
+const requestOptionsGet = {
+  method: "GET",
+  redirect: "follow"
+};
+
 
 function togglePassword(inputId, el) {
   const input = document.getElementById(inputId);
@@ -37,4 +49,40 @@ form.addEventListener("submit", function (e) {
 
   message.style.color = "green";
   message.textContent = "Mot de passe réinitialisé avec succès";
+
+    reinit_password(email, password)
+
+  
 });
+
+
+
+function reinit_password(email, password){
+
+    data = JSON.stringify({
+      "mdp": emailCo,
+      "password": passwordCo
+    })
+
+    data_encode = encodeURIComponent(data)
+
+    etat = "get_userFirebase_info"
+    getUrl = `${url_api}?info=${data_encode}&etat=${etat}`
+    fetch(getUrl, requestOptionsGet)
+      .then((response) => response.json())
+      .then((get_data) => {
+        
+      })
+  
+}
+
+
+
+
+
+
+
+
+
+
+
